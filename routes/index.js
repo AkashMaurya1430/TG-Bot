@@ -1,19 +1,33 @@
 // setup routes
-const express = require("express");
-const router = express.Router();
+// const express = require("express");
+// const router = express.Router();
+const File = require("../model/File");
 
 const initRoutes = (app) => {
-  router.get("/", function (req, res) {
+  app.get("/", function (req, res) {
     res.send("Server Running");
   });
 
-  router.get("/download", function (req, res) {
-    console.log(req.get("referer"));
+  app.get("/getfile", function (req, res) {
+    let fileName = req.query.fileName;
+    console.log("File Name", fileName);
+    console.log("Previous Url", req.get("referer"));
     if (req.get("referer") && req.get("referer").includes("grifftips.com")) {
-      console.log("Yes");
-      res.redirect("https://luxtestok.herokuapp.com/35/%40Movies_Lux_.mkv");
+      // console.log("Yes");
+      File.findOne({ fileName: fileName })
+        .then((file) => {
+          if (file) {
+            // console.log(file);
+            res.redirect(file.url);
+          } else {
+            res.send("File Not Found");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      console.log("No");
+      // console.log("No");
       backURL = req.header("Referer") || "/";
       res.redirect(backURL);
     }
