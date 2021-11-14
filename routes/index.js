@@ -10,8 +10,8 @@ const initRoutes = (app) => {
 
   app.get("/getfile", function (req, res) {
     let fileName = req.query.fileName;
-    console.log("File Name", fileName);
-    console.log("Previous Url", req.get("referer"));
+    // console.log("File Name", fileName);
+    // console.log("Previous Url", req.get("referer"));
     if (req.get("referer") && req.get("referer").includes("grifftips.com")) {
       // console.log("Yes");
       File.findOne({ fileName: fileName })

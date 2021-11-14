@@ -50,13 +50,14 @@ bot.on("message", (ctx) => {
         .save()
         .then((result) => {
           ctx.reply("File Url Saved");
-          // console.log(result);
+          console.log(result);
         })
         .catch((err) => {
           if (err.code === 11000) {
             ctx.reply(`${Object.keys(err.keyPattern)} already exists`);
           }
-          // console.log(err);
+          ctx.reply(`${err._message}, Please try again with proper format or contact admin`);
+          // console.log(err._message);
         });
     }
 
